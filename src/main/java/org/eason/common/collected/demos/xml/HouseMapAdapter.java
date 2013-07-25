@@ -1,4 +1,4 @@
-package org.eason.common.demos.xml;
+package org.eason.common.collected.demos.xml;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import org.eason.common.demos.xml.HouseMapAdapter.HouseMap.HouseEntry;
+import org.eason.common.collected.demos.xml.HouseMapAdapter.HouseMap.HouseEntry;
 
 import com.google.common.collect.Maps;
 

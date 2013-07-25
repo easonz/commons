@@ -1,4 +1,4 @@
-package org.eason.common.demos.web;
+package org.eason.common.collected.demos.web;
 
 import java.io.IOException;
 

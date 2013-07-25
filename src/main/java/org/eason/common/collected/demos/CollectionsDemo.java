@@ -1,4 +1,4 @@
-package org.eason.common.demos;
+package org.eason.common.collected.demos;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

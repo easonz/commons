@@ -1,4 +1,4 @@
-package org.eason.common.demos.xml;
+package org.eason.common.collected.demos.xml;
 
 import javax.xml.bind.annotation.XmlAttribute;
 

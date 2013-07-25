@@ -1,4 +1,4 @@
-package org.eason.common.demos;
+package org.eason.common.collected.demos;
 
 import java.io.File;
 import java.io.IOException;

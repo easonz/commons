@@ -3,7 +3,7 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
-package org.eason.common.demos.web;
+package org.eason.common.collected.demos.web;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;

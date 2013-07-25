@@ -1,10 +1,18 @@
-package org.eason.common.demos.xml;
+package org.eason.common.collected.utils.mapper.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -24,21 +32,13 @@ import com.google.common.collect.Lists;
  * <?xml version="1.0" encoding="UTF-8"?>
  * <user id="1">
  * 	<name>calvin</name>
- * 	<roles>
- * 		<role id="1" name="admin"/>
- * 		<role id="2" name="user"/>
- * 	</roles>
  * 	<interests>
  * 		<interest>movie</interest>
  * 		<interest>sports</interest>
  * 	</interests>
- * 	<houses>
- * 		<house key="bj">house1</item>
- * 		<hosue key="gz">house2</item>
- * 	</houses>
  * </user>
  */
-public class JaxbDemo {
+public class JaxbMapperTest {
 
 	@Test
 	public void objectToXml() {
@@ -46,13 +46,8 @@ public class JaxbDemo {
 		user.setId(1L);
 		user.setName("calvin");
 
-		user.getRoles().add(new Role(1L, "admin"));
-		user.getRoles().add(new Role(2L, "user"));
 		user.getInterests().add("movie");
 		user.getInterests().add("sports");
-
-		user.getHouses().put("bj", "house1");
-		user.getHouses().put("gz", "house2");
 
 		String xml = JaxbMapper.toXml(user, "UTF-8");
 		System.out.println("Jaxb Object to Xml result:\n" + xml);
@@ -67,14 +62,8 @@ public class JaxbDemo {
 		System.out.println("Jaxb Xml to Object result:\n" + user);
 
 		assertEquals(Long.valueOf(1L), user.getId());
-		assertEquals(2, user.getRoles().size());
-		assertEquals("admin", user.getRoles().get(0).getName());
-
 		assertEquals(2, user.getInterests().size());
 		assertEquals("movie", user.getInterests().get(0));
-
-		assertEquals(2, user.getHouses().size());
-		assertEquals("house1", user.getHouses().get("bj"));
 	}
 
 	/**
@@ -106,20 +95,10 @@ public class JaxbDemo {
 
 		root.addElement("name").setText("calvin");
 
-		//List<Role>
-		Element roles = root.addElement("roles");
-		roles.addElement("role").addAttribute("id", "1").addAttribute("name", "admin");
-		roles.addElement("role").addAttribute("id", "2").addAttribute("name", "user");
-
 		//List<String>
 		Element interests = root.addElement("interests");
 		interests.addElement("interest").addText("movie");
 		interests.addElement("interest").addText("sports");
-
-		//Map<String,String>
-		Element houses = root.addElement("houses");
-		houses.addElement("house").addAttribute("key", "bj").addText("house1");
-		houses.addElement("house").addAttribute("key", "gz").addText("house2");
 
 		return document.asXML();
 	}
@@ -137,15 +116,64 @@ public class JaxbDemo {
 		Element user = doc.getRootElement();
 		assertEquals("1", user.attribute("id").getValue());
 
-		Element adminRole = (Element) doc.selectSingleNode("//roles/role[@id=1]");
-		assertEquals(2, adminRole.getParent().elements().size());
-		assertEquals("admin", adminRole.attribute("name").getValue());
-
 		Element interests = (Element) doc.selectSingleNode("//interests");
 		assertEquals(2, interests.elements().size());
 		assertEquals("movie", ((Element) interests.elements().get(0)).getText());
+	}
 
-		Element house1 = (Element) doc.selectSingleNode("//houses/house[@key='bj']");
-		assertEquals("house1", house1.getText());
+	@XmlRootElement
+	//指定子节点的顺序
+	@XmlType(propOrder = { "name", "interests" })
+	private static class User {
+
+		private Long id;
+		private String name;
+		private String password;
+
+		private List<String> interests = Lists.newArrayList();
+
+		//设置转换为xml节点中的属性
+		@XmlAttribute
+		public Long getId() {
+			return id;
+		}
+
+		public void setId(Long id) {
+			this.id = id;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		//设置不转换为xml
+		@XmlTransient
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+		//设置对List<String>的映射, xml为<interests><interest>movie</interest></interests>
+		@XmlElementWrapper(name = "interests")
+		@XmlElement(name = "interest")
+		public List<String> getInterests() {
+			return interests;
+		}
+
+		public void setInterests(List<String> interests) {
+			this.interests = interests;
+		}
+
+		@Override
+		public String toString() {
+			return ToStringBuilder.reflectionToString(this);
+		}
 	}
 }
