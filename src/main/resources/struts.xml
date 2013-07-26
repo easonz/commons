@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<constant name="struts.devMode" value="false" />
+
+	<package name="PQWebServer" extends="struts-default">
+		<interceptors>
+			<!-- <interceptor name="myInterceptor" class=""/> -->
+			<!-- 自定义拦截器堆栈 -->
+			<interceptor-stack name="myStack">
+				<!-- <interceptor-ref name="myInterceptor"/> -->
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myStack" />
+		<global-results>
+			<result name="disconnect" type="redirect">/Error.jsp</result>
+			<result name="pqException" type="chain">pqException</result>
+		</global-results>
+
+		<action name="index">
+			<result>/index.jsp</result>
+		</action>
+
+		<!-- 获取验证码 -->
+		<action name="authCode" class="org.eason.common.utils.webs.AuthCodeAction"
+			method="execute">
+			<result name="success" type="stream"></result>
+		</action>
+	</package>
+</struts>

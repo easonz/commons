@@ -1,6 +1,8 @@
 package org.eason.common.collected.demos;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Map;
@@ -122,5 +124,9 @@ public class StringDemo {
 		assertEquals("spaceSize", CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name));
 		assertEquals("space_size", CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, name));
 		assertEquals("space-size", CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_HYPHEN, name));
+	}
+	
+	public void commonUser(){
+		String[] strs = StringUtils.split("a,b,c,d", ",");
 	}
 }

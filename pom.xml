@@ -42,13 +42,18 @@
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-api-mockito</artifactId>
 			<version>1.5</version>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${org.springframework.version}</version>
-			<scope>compile</scope>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-junit-plugin</artifactId>
+			<version>2.3.14.2</version>
+			<scope>test</scope>
+		</dependency>
 		<!-- test end -->
 
 		<!-- LOGGING begin -->
@@ -99,12 +104,12 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.2.3</version>
-		</dependency>	
-    <dependency>
-      <groupId>org.ini4j</groupId>
-      <artifactId>ini4j</artifactId>
-      <version>0.5.2</version>
-    </dependency>		
+		</dependency>
+		<dependency>
+			<groupId>org.ini4j</groupId>
+			<artifactId>ini4j</artifactId>
+			<version>0.5.2</version>
+		</dependency>
 		<!-- GENERAL UTILS end -->
 
 		<!-- JSON begin -->
@@ -140,6 +145,11 @@
 		<!-- xml begin -->
 
 		<!-- spring begin -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
@@ -181,6 +191,12 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
 		</dependency>
 		<!-- web end -->
 
