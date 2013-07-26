@@ -1,0 +1,56 @@
+#######开放模式############
+
+###############
+#    folder   #
+###############
+/.myeclipse/
+/.settings/
+/logs/
+/target/
+/src/main/webapp/
+
+
+
+###############
+#  fixed file #
+###############
+#.gitignore
+.mymetadata
+*.exe
+*.txt
+*.def
+*.dsp
+*.lib
+*.doc
+*.dll
+*.lnt
+*.pm
+*.xls
+*.dbg
+*.DBG
+*.o
+*.plg
+*.keep
+
+
+###############
+#  temp file  #
+###############
+~*
+*.log
+*.cmm
+*.men
+*.fig
+*.cmp
+*.tmp
+
+###############
+#    script   #
+###############
+*.bat
+
+#########保守模式############
+!/src/main/java/
+!/src/main/sources/
+!/src/test/java/
+!/src/test/sources/
