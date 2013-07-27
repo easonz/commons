@@ -7,7 +7,7 @@ import com.opensymphony.xwork2.ActionProxy;
 
 public class Struts2ActionTest extends StrutsTestCase{
 	
-	private ActionProxy proxy;
+	protected ActionProxy proxy;
 	
     public void testAdd() throws Exception{
     	

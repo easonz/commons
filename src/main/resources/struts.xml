@@ -7,7 +7,12 @@
 
 	<constant name="struts.devMode" value="false" />
 
-	<package name="PQWebServer" extends="struts-default">
+	<package name="commons" extends="struts-default">
+	
+		<result-types>
+			<result-type name="string" class="org.eason.common.utils.webs.StringResultType"></result-type>
+		</result-types>
+	
 		<interceptors>
 			<!-- <interceptor name="myInterceptor" class=""/> -->
 			<!-- 自定义拦截器堆栈 -->
@@ -16,7 +21,9 @@
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 		</interceptors>
+		
 		<default-interceptor-ref name="myStack" />
+		
 		<global-results>
 			<result name="disconnect" type="redirect">/Error.jsp</result>
 			<result name="pqException" type="chain">pqException</result>
@@ -31,5 +38,12 @@
 			method="execute">
 			<result name="success" type="stream"></result>
 		</action>
+		
+		<action name="getPlainText" class="org.eason.common.utils.webs.PlainTextAction"
+			method="getPlainText">
+			<result name="ajaxResponse" type="string">
+				<param name="stringName">ajaxResult</param>
+			</result>
+		</action>		
 	</package>
 </struts>
