@@ -1,5 +1,6 @@
 package org.eason.common.utils;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -10,78 +11,73 @@ import java.net.URLDecoder;
  * @date     2013-1-25
  */
 public class PathUtil {
-	/**
-	* <p>Title: getWebClassesPath</p>
-	* <p>Description: 获取项目中classes文件夹路径</p>
-	* @return 返回classes文件夹路径
-	 * @throws UnsupportedEncodingException 
-	*/
-	public String getWebClassesPath() throws UnsupportedEncodingException {
-		final String resourceFileName = "IcePQServer.cfg";
-		
-		String path = Thread.currentThread().getContextClassLoader()
-				.getResource(resourceFileName).getPath();
-		path = path.substring(1);
+	
+	/** web项目根目录 */
+	private static String webRoot = null;
+	
+	/** web项目class目录 */
+	private static String classPath = null;
 
-		path = URLDecoder.decode(path, "utf-8");			
-		
-		if (path.indexOf(resourceFileName) > 0) {
-			path = path.substring(0, path.indexOf(resourceFileName));
-		}
-		
-		return path;
-
-	}
- 
-	/**
-	 * <p>Title: getComtradePath</p>
-	 * <p>Description: 获取comtrade文件下载路径</p>
-	 * @return comtrade文件下载路径
-	 * @throws UnsupportedEncodingException 
-	 */
-	public String getDataTypePath() throws UnsupportedEncodingException {   
-		return getWebClassesPath() + "datatype/";   
-    } 
-
-	/**
-	 * <p>Title: getComtradePath</p>
-	 * <p>Description: 获取comtrade文件下载路径</p>
-	 * @return comtrade文件下载路径
-	 * @throws UnsupportedEncodingException 
-	 */
-	public String getComtradePath() throws UnsupportedEncodingException { 
-		return getWebClassesPath() + "comtrade/";
-    }
-
-	/**
-	 * <p>Title: getTempPath</p>
-	 * <p>Description: 获取临时文件存放地址</p>
-	 * @return 
-	 */
-	public String getTempPath() { 
-		return getWebRoot() + "temp/";
-    }
-
-	/**
-	 * <p>Title: getWebRoot</p>
-	 * <p>Description: 获取WebRoot路径</p>
-	 * @return WebRoot路径字符串
-	 */
-	public String getWebRoot() {
-		String path = "";
-		
+	static {
+		classPath = Thread.currentThread().getContextClassLoader()
+				.getResource("").getPath();
 		try {
-			path = getWebClassesPath();
+			classPath = URLDecoder.decode(classPath, "utf-8");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
-		if (path.indexOf("WEB-INF") > 0) {
-			path = path.substring(0, path.indexOf("WEB-INF"));
+			throw new RuntimeException(e);
 		}
-		
-		return path;
+		if (classPath.contains("WEB-INF")) {
+
+			webRoot = Thread.currentThread().getContextClassLoader()
+				.getResource("../../").getPath();
+		} else {
+
+			webRoot = System.getProperty("user.dir");
+			webRoot = webRoot + "/";
+		}
+		try {
+			webRoot = URLDecoder.decode(webRoot, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * @return the webRoot
+	 */
+	public static String getWebRoot() {
+		return webRoot;
+	}
+	
+
+	/**
+	 * @return the currentPath
+	 */
+	public static String getPath() {
+		return webRoot;
+	}
+	
+	public static String getPath(String relativeFilePath) {
+		return webRoot + relativeFilePath;
+	}
+
+	public static File getFile(String relativeFilePath) {
+		return new File(webRoot + relativeFilePath);
+	}
+
+	/**
+	 * @return the currentPath
+	 */
+	public static String getClassPath() {
+		return classPath;
+	}
+	
+	public static String getClassPath(String relativeFilePath) {
+		return classPath + relativeFilePath;
+	}
+
+	public static File getClassPathFile(String relativeFilePath) {
+		return new File(classPath + relativeFilePath);
 	}
 }
 
