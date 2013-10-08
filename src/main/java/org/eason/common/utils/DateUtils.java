@@ -185,6 +185,29 @@ public class DateUtils {
 	}
 	
 	/**
+	 * 根据自定义日期格式获得日期
+	 * 
+	 * @param dateAndTime
+	 * @return
+	 */
+	public static Date getDateAndTime(String dateAndTime, String dateAndTimeFormat) {
+		if(dateAndTime == null){
+			return null;
+		}
+		Date date = null;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateAndTimeFormat);
+		
+		try {  
+			date = simpleDateFormat.parse(dateAndTime); 
+		}  
+		catch (Exception ex) {  
+			ex.printStackTrace();
+			System.out.println(ex.getMessage());  
+		}
+		return date;
+	}
+	
+	/**
 	 * 
 	 * @param date
 	 * @param time

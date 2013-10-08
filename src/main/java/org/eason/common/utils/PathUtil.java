@@ -2,6 +2,7 @@ package org.eason.common.utils;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLDecoder;
 
 /**
@@ -20,18 +21,20 @@ public class PathUtil {
 
 	static {
 		classPath = Thread.currentThread().getContextClassLoader()
-				.getResource("").getPath();
+				.getResource("").getFile();
+		File file = new File(classPath);
+		classPath = file.getAbsolutePath();
+		
 		try {
 			classPath = URLDecoder.decode(classPath, "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
+		
 		if (classPath.contains("WEB-INF")) {
-
 			webRoot = Thread.currentThread().getContextClassLoader()
 				.getResource("../../").getPath();
 		} else {
-
 			webRoot = System.getProperty("user.dir");
 			webRoot = webRoot + "/";
 		}
@@ -43,14 +46,15 @@ public class PathUtil {
 	}
 
 	/**
+	 * 获取Web根目录，如果没有部署的话就是工程根目录
 	 * @return the webRoot
 	 */
 	public static String getWebRoot() {
 		return webRoot;
 	}
 	
-
 	/**
+	 * 获取Web根目录，如果没有部署的话就是工程根目录
 	 * @return the currentPath
 	 */
 	public static String getPath() {
@@ -66,6 +70,7 @@ public class PathUtil {
 	}
 
 	/**
+	 * 获取类资源的根路径
 	 * @return the currentPath
 	 */
 	public static String getClassPath() {
@@ -78,6 +83,43 @@ public class PathUtil {
 
 	public static File getClassPathFile(String relativeFilePath) {
 		return new File(classPath + relativeFilePath);
+	}
+	
+	/**
+	 * 获取类所在的程序的classes目录路径 或者 所在jar的目录
+	 * @return
+	 */
+	public static String getJarOrClassPath() {
+		URL url = PathUtil.class.getProtectionDomain().getCodeSource().getLocation();
+		String filePath = null;
+		try {
+			filePath = URLDecoder.decode(url.getPath(), "utf-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (filePath.endsWith(".jar")){
+			filePath = filePath.substring(0, filePath.lastIndexOf("/") + 1);
+		}
+		File file = new File(filePath);
+		filePath = file.getAbsolutePath();
+		return filePath;
+	}
+
+	public static String getRealPath() {
+		String realPath = PathUtil.class.getClassLoader().getResource("").getFile();
+		File file = new File(realPath);
+		realPath = file.getAbsolutePath();
+		try {
+			realPath = URLDecoder.decode(realPath, "utf-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return realPath;
+	}
+	
+	public final static void main(String[] args){
+		System.out.println(PathUtil.getJarOrClassPath());
+		System.out.println(PathUtil.getRealPath());
 	}
 }
 

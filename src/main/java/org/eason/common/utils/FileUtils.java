@@ -138,4 +138,8 @@ public class FileUtils {
 			}
 		}
 	}
+	
+	public static boolean isAbsolutePath(String filePath){
+		return new File(filePath).isAbsolute();
+	}
 }
